@@ -2,10 +2,7 @@
 
 import { CountChart } from "@/components/count-chart";
 import { RecentActivities } from "@/components/recent-activities";
-import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-
 
 const types_of_users = [
     { name: 'Estudiantes', total: 100 },
@@ -13,11 +10,6 @@ const types_of_users = [
     { name: 'Grupos', total: 100 },
     { name: 'Materias', total: 100 },
 ]
-
-
-
-
-
 
 const AdminPage = () => {
     return (
