@@ -1,67 +1,52 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+// middleware.ts
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const supabase = createMiddlewareClient({ req, res });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  // Do not run code between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
-
-  // IMPORTANT: DO NOT REMOVE auth.getUser()
-
+  // Verificar la sesión del usuario
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+  // Rutas que requieren autenticación
+  const protectedRoutes = ["/admin", "/teacher", "/alumno"];
+
+  // Rutas de inicio de sesión y registro
+  const authRoutes = ["/login", "/register"];
+
+  const path = req.nextUrl.pathname;
+
+  // Si no hay sesión y se intenta acceder a rutas protegidas
+  if (protectedRoutes.some((route) => path.startsWith(route)) && !session) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
-  // If you're creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
-  //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object to fit your needs, but avoid changing
-  //    the cookies!
-  // 4. Finally:
-  //    return myNewResponse
-  // If this is not done, you may be causing the browser and server to go out
-  // of sync and terminate the user's session prematurely!
+  // Si hay sesión y se intenta acceder a rutas de autenticación
+  if (authRoutes.includes(path) && session) {
+    // Redirigir al dashboard según el tipo de usuario
+    const { data: usuarioData } = await supabase
+      .from("usuarios")
+      .select("tipo_usuario")
+      .eq("email", session.user.email)
+      .single();
 
-  return supabaseResponse;
+    switch (usuarioData?.tipo_usuario) {
+      case "admin":
+        return NextResponse.redirect(new URL("/admin", req.url));
+      case "maestro":
+        return NextResponse.redirect(new URL("/teacher", req.url));
+      case "alumno":
+        return NextResponse.redirect(new URL("/alumno", req.url));
+    }
+  }
+
+  return res;
 }
+
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};

@@ -1,8 +1,9 @@
 'use client'
 
-import { CountChart } from "@/components/count-chart";
-import { RecentActivities } from "@/components/recent-activities";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UsersTable } from "@/components/users-table";
 
 const types_of_users = [
     { name: 'Estudiantes', total: 100 },
@@ -13,67 +14,92 @@ const types_of_users = [
 
 const AdminPage = () => {
     return (
-        <div className="p-4 flex gap-4 flex-col md:flex-row">
-            <div className="w-full">
-                <div className="flex gap-4 flex-wrap">
+        <div className="flex min-h-screen flex-col">
+            <div className="flex flex-1">
+                <main className="flex-1 p-6">
 
-                    {
-                        types_of_users.map((i) => (
-                            <Card key={i.name} className="flex-1 min-w-[130px]">
+                    <div className="flex items-center justify-between mb-6">
+                        <h1 className="text-3xl font-bold tracking-tight">Panel de Administrador</h1>
+                        <div className="flex items-center gap-2">
+                            <Button>Exportar Datos</Button>
+                            <Button variant="outline">Configuración</Button>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+
+                        {
+                            types_of_users.map((i) => (
+                                <Card key={i.name} >
+                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <CardTitle className="text-base font-medium">Total {i.name}</CardTitle>
+
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-3xl font-bold">
+                                            {i.total}
+                                        </div>
+                                        <p className="text-sm text-muted-foreground">+2 desde el mes pasado</p>
+                                    </CardContent>
+
+                                </Card>
+                            ))
+                        }
+                    </div>
+
+                    <Tabs defaultValue="usuarios" className="space-y-4">
+                        <TabsList>
+                            <TabsTrigger value="usuarios">Usuarios</TabsTrigger>
+                            <TabsTrigger value="carreras">Carreras</TabsTrigger>
+                            <TabsTrigger value="materias">Materias</TabsTrigger>
+                            <TabsTrigger value="grupos">Grupos</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="usuarios" className="space-y-4">
+                            <Card>
                                 <CardHeader>
-                                    <CardTitle>{i.name}</CardTitle>
-                                    <CardDescription>Total de {i.name} registrados</CardDescription>
+                                    <CardTitle>Gestión de Usuarios</CardTitle>
+                                    <CardDescription>Administra maestros y alumnos del sistema.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <p>
-                                        Total: {i.total}
-                                    </p>
+                                    <UsersTable />
                                 </CardContent>
-
                             </Card>
-                        ))
-                    }
-                </div>
-                <div className="flex">
-                    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-2">
-                        <CountChart />
-                        <CountChart />
-                        <CountChart />
-
-                        <CountChart />
-                    </div>
-                </div>
-            </div>
-            <div className="w-full lg:w-1/3 flex flex-col gap-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-2xl">
-                            Acciones
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <h1>
-                            Agregar alumno
-                        </h1>
-                        <h2>
-                            Agregar maestro
-                        </h2>
-                        <h2>
-                            Agregar grupo
-                        </h2>
-                        <h2>
-                            Agregar materia
-                        </h2>
-                    </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                    <CardHeader>
-                        <CardTitle>Recent Activities</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <RecentActivities />
-                    </CardContent>
-                </Card>
+                        </TabsContent>
+                        <TabsContent value="carreras" className="space-y-4">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Gestión de Carreras</CardTitle>
+                                    <CardDescription>Administra las carreras disponibles en la institución.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {/* <CarrerasTable /> */}
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="materias" className="space-y-4">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Gestión de Materias</CardTitle>
+                                    <CardDescription>Administra las materias disponibles en la institución.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {/* <MateriasTable /> */}
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="grupos" className="space-y-4">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Gestión de Grupos</CardTitle>
+                                    <CardDescription>Administra los grupos disponibles en la institución.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    {/* <GruposTable /> */}
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                    </Tabs>
+                </main>
             </div>
         </div>
     )

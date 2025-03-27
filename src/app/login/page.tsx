@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export default async function LoginPage() {
 
   const { data } = await readUserSession()
-  if (data.session) {
+  if (data.user) {
     return redirect("/admin")
   }
 

@@ -2,20 +2,14 @@
 
 import * as React from "react"
 import {
-  Captions,
-  Frame,
-  GraduationCap,
-  Group,
-  Home,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  User,
+  BookOpenIcon,
+  GraduationCapIcon,
+  GroupIcon,
+  HomeIcon,
+  UsersIcon,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -32,145 +26,33 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Home",
-      url: "#",
-      icon: Home,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      title: "Inicio",
+      url: "/admin",
+      icon: HomeIcon,
+      isActive: true
     },
     {
-      title: "Maestros",
-      url: "#",
-      icon: GraduationCap,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      title: "Usuarios",
+      url: "/admin/usuarios",
+      icon: UsersIcon,
     },
     {
-      title: "Estudiantes",
-      url: "#",
-      icon: User,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      title: "Carreras",
+      url: "/admin/carreras",
+      icon: GraduationCapIcon,
     },
     {
       title: "Grupos",
-      url: "#",
-      icon: Group,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
+      url: "/admin/grupos",
+      icon: GroupIcon,
     },
     {
       title: "Materias",
-      url: "#",
-      icon: Captions,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Materias",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      url: "/admin/materias",
+      icon: BookOpenIcon,
     },
   ],
 }
@@ -207,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )
