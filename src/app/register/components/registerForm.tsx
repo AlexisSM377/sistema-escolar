@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
+import { signUpWithEmailAndPassword } from "../actions";
 
 const FormSchema = z
     .object({
@@ -33,20 +35,30 @@ export default function RegisterForm() {
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        const result = await signUpWithEmailAndPassword(data);
+        const parsedResult = JSON.parse(result);
 
-
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(data, null, 2)}
-                    </code>
-                </pre>
-
-            ),
-        });
+        if (parsedResult.error) {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                        <code className="text-white">{parsedResult.error.message}</code>
+                    </pre>
+                ),
+            });
+        } else {
+            toast({
+                title: "Success",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                        <code className="text-white">Successfully registered</code>
+                    </pre>
+                ),
+            });
+        }
     }
 
     return (
