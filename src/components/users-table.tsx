@@ -16,6 +16,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { PlusIcon, SearchIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export function UsersTable() {
     const [isAddUserOpen, setIsAddUserOpen] = useState(false)
@@ -109,8 +110,15 @@ export function UsersTable() {
                                 <TableCell>{user.nombre}</TableCell>
                                 <TableCell>
                                     <span
-                                        className={`inline-flex items-center rounded-md px-2 py-1 font-medium ${user.tipo === "Alumno" ? "bg-yellow-50  text-yellow-800 ring-1 ring-yellow-600/20 ring-inset" : "bg-blue-50  text-blue-700 ring-1 ring-blue-700/10 ring-inset"
-                                            }`}
+                                        className={cn(
+                                            " dark:bg-zinc-800 px-2 py-1 rounded-full shadow capitalize  border-[.5px] text-sm",
+                                            {
+                                                "border-green-500 text-green-600 bg-green-200":
+                                                    user.tipo === "Alumno",
+                                                "border-zinc-300 dark:text-yellow-300 dark:border-yellow-700 px-4 bg-yellow-50":
+                                                    user.tipo === "Maestro",
+                                            }
+                                        )}
                                     >
                                         {user.tipo}
                                     </span>
