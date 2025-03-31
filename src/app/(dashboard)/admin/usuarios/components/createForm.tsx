@@ -1,6 +1,4 @@
 'use client'
-import { useFormStatus } from 'react-dom'
-
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,8 +12,6 @@ import {
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { useRouter } from 'next/navigation'
-
 import { useEffect, useState, useTransition } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import {
@@ -27,13 +23,15 @@ import {
 } from "@/components/ui/select"
 import { createUsuario } from '../actions'
 import { toast } from '@/hooks/use-toast'
+import { LoaderCircle } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // Esquema de validación del cliente
 const FormSchema = z.object({
     nombre: z.string().min(2),
     id_rol: z.string().uuid(),
     genero: z.enum(['M', 'F', 'O']),
-    matricula: z.string(),
+    matricula: z.string().min(2),
     email: z.string().email(),
     password: z.string().min(6),
     confirm: z.string().min(6),
@@ -45,7 +43,6 @@ const FormSchema = z.object({
 })
 
 export default function UsuarioForm() {
-    const router = useRouter()
     const supabase = createClientComponentClient()
     const [roles, setRoles] = useState([])
     const [loadingRoles, setLoadingRoles] = useState(true)
@@ -55,13 +52,13 @@ export default function UsuarioForm() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
+            nombre: '',
+            id_rol: '',
+            genero: 'M',
+            matricula: '',
             email: '',
             password: '',
             confirm: '',
-            nombre: '',
-            genero: 'M',
-            matricula: '',
-            id_rol: ''
         }
     })
 
@@ -98,7 +95,7 @@ export default function UsuarioForm() {
             const { error } = result;
             if (error) {
                 toast({
-                    title: "Error",
+                    title: "Error al crear el usuario",
                     description: (
                         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                             <code >
@@ -108,17 +105,14 @@ export default function UsuarioForm() {
                     ),
                 });
             } else {
+                document.getElementById("create-trigger")?.click();
                 toast({
                     title: "Usuario creado",
-                    description: "El usuario fue creado exitosamente",
+                    description: "El usuario fue creado exitosamente 👌",
                 });
-                router.refresh()
             }
+
         })
-
-        document.getElementById("create-trigger")?.click();
-
-
     }
 
     return (
@@ -246,18 +240,18 @@ export default function UsuarioForm() {
                     )}
                 />
 
-                <SubmitButton />
+                <Button
+                    type="submit"
+                    className="w-full flex gap-2 items-center"
+                    variant="outline"
+                >
+                    Crear usuario{" "}
+                    <LoaderCircle
+                        className={cn("animate-spin", { hidden: !isPending })}
+                    />
+                </Button>
             </form>
         </Form>
     )
 }
 
-function SubmitButton() {
-    const { pending } = useFormStatus()
-
-    return (
-        <Button type="submit" disabled={pending}>
-            {pending ? 'Creando...' : 'Crear Usuario'}
-        </Button>
-    )
-}

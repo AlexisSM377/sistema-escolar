@@ -22,9 +22,7 @@ export async function createUsuario(data: {
   });
 
   if (createResult.error?.message) {
-    return {
-      error: createResult.error.message,
-    };
+    return JSON.stringify(createResult);
   } else {
     const usuariosResult = await supabase.from("usuarios").insert({
       id: createResult.data.user?.id,

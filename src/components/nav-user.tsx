@@ -1,6 +1,5 @@
 import {
   ChevronsUpDown,
-  LogOut,
 } from "lucide-react";
 
 import {
@@ -20,8 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import readUserSession from "@/lib/actions";
-
-import { logout } from "@/lib/actions/logout";
+import SignOut from "./signOut";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -43,10 +41,6 @@ export function NavUser() {
     fetchUser();
   }, [router]);
 
-  async function handleLogout() {
-    // Llama a la acción del servidor para cerrar sesión
-    await logout();
-  }
 
   if (user === "loading") return null;
 
@@ -83,9 +77,8 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut />
-              <span className="ml-2">Cerrar sesión</span>
+            <DropdownMenuItem className="cursor-pointer" >
+              <SignOut />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

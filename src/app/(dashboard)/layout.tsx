@@ -10,8 +10,17 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import readUserSession from "@/lib/actions"
+import { redirect } from "next/navigation"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+    const { data } = await readUserSession()
+
+    if (!data.user) {
+        return redirect("/login")
+    }
+
     return (
         <SidebarProvider>
             <AppSidebar />

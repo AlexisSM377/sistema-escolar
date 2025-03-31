@@ -11,6 +11,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "@/hooks/use-toast"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { signInWithEmailAndPassword } from "../actions"
+import { useTransition } from "react"
+import { AuthTokenResponse } from "@supabase/supabase-js"
+import { LoaderCircle } from "lucide-react"
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -23,6 +26,7 @@ export function LoginForm({
     ...props
 }: React.ComponentProps<"div">) {
 
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -34,37 +38,55 @@ export function LoginForm({
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
 
-        const result = await signInWithEmailAndPassword(data);
-        const { error } = result;
+        startTransition(async () => {
+
+            const { error } = await signInWithEmailAndPassword(data) as AuthTokenResponse;
+
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: error.message,
+                });
+            } else {
+                toast({
+                    title: "Bienvenido",
+                    description: "Has iniciado sesión correctamente 🎉",
+                });
+            }
+        })
+
+        // const result = await signInWithEmailAndPassword(data);
+        // const { error } = result;
 
 
-        if (error?.message) {
-            toast({
-                variant: "destructive",
-                title: "Error",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                        <code className="text-white">
-                            {error.message}
-                        </code>
-                    </pre>
+        // if (error?.message) {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Error",
+        //         description: (
+        //             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //                 <code className="text-white">
+        //                     {error.message}
+        //                 </code>
+        //             </pre>
 
-                ),
-            });
+        //         ),
+        //     });
 
-        } else {
-            toast({
-                title: "Success",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                        <code className="text-white">
-                            Successfully Loged
-                        </code>
-                    </pre>
+        // } else {
+        //     toast({
+        //         title: "Success",
+        //         description: (
+        //             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //                 <code className="text-white">
+        //                     Successfully Loged
+        //                 </code>
+        //             </pre>
 
-                ),
-            });
-        }
+        //         ),
+        //     });
+        // }
     }
 
     return (
@@ -120,15 +142,22 @@ export function LoginForm({
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="w-full flex gap-2">
-                                SignIn
+                            <Button
+                                type="submit"
+                                className="w-full flex gap-2 items-center"
+                                variant="outline"
+                            >
+                                Iniciar sesión{" "}
+                                <LoaderCircle
+                                    className={cn("animate-spin", { hidden: !isPending })}
+                                />
                             </Button>
-                            <div className="text-center text-sm">
+                            {/* <div className="text-center text-sm">
                                 No tienes una cuenta?{" "}
                                 <a href="/register" className="underline underline-offset-4">
                                     Regístrate
                                 </a>
-                            </div>
+                            </div> */}
                         </form>
                     </Form>
                     <div className="relative hidden bg-muted md:block">
