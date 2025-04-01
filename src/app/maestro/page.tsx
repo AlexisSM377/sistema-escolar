@@ -1,24 +1,24 @@
-
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const types_of_users = [
-    { name: 'Estudiantes', total: 100 },
-    { name: 'Maestros', total: 100 },
-    { name: 'Grupos', total: 100 },
-    { name: 'Materias', total: 100 },
+    { name: 'Mis Grupos', total: 100 },
+    { name: 'Total Alumnos', total: 100 },
+    { name: 'Calificaciones Pendientes', total: 100 },
+    { name: 'Materias Asignadas', total: 100 },
+
 ]
 
 const AdminPage = () => {
     return (
         <div className="flex min-h-screen flex-col">
             <div className="flex flex-1">
+
                 <main className="flex-1 p-6">
 
                     <div className="flex items-center justify-between mb-6">
-                        <h1 className="text-3xl font-bold tracking-tight">Panel de Administrador</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">Panel de Maestro</h1>
                         <div className="flex items-center gap-2">
                             <Button>Exportar Datos</Button>
                             <Button variant="outline">Configuración</Button>

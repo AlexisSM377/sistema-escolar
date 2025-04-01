@@ -1,7 +1,7 @@
 export default function page() {
     return (
         <div>
-            <h1>Alumnos</h1>
+            <h1>Materias</h1>
         </div>
     )
 }

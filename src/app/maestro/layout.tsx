@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebarMaestro } from "@/components/app-sidebar-maestro"
 import { ModeToggle } from "@/components/toggle-theme"
 import {
     Breadcrumb,
@@ -23,7 +23,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
     return (
         <SidebarProvider>
-            <AppSidebar />
+            <AppSidebarMaestro />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                     <div className="flex items-center gap-2 px-4">
