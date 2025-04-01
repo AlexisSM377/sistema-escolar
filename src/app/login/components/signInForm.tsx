@@ -14,6 +14,7 @@ import { signInWithEmailAndPassword } from "../actions"
 import { useTransition } from "react"
 import { AuthTokenResponse } from "@supabase/supabase-js"
 import { LoaderCircle } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -27,6 +28,9 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
 
     const [isPending, startTransition] = useTransition();
+    const searhParams = useSearchParams()
+    const role = searhParams.get("role")
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -52,6 +56,18 @@ export function LoginForm({
                 toast({
                     title: "Bienvenido",
                     description: "Has iniciado sesión correctamente 🎉",
+                });
+            }
+
+            if (role === "admin") {
+                router.push("/admin")
+            } else if (role === "maestro") {
+                router.push("/maestro")
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: "No se ha podido redirigir al dashboard.",
                 });
             }
         })

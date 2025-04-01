@@ -13,10 +13,10 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   // Rutas que requieren autenticación
-  const protectedRoutes = ["/admin", "/teacher", "/alumno"];
+  const protectedRoutes = ["/admin", "/maestro", "/alumno"];
 
   // Rutas de inicio de sesión y registro
-  const authRoutes = ["/login", "/register"];
+  const authRoutes = ["/login"];
 
   const path = req.nextUrl.pathname;
 
@@ -27,20 +27,37 @@ export async function middleware(req: NextRequest) {
 
   // Si hay sesión y se intenta acceder a rutas de autenticación
   if (authRoutes.includes(path) && session) {
-    // Redirigir al dashboard según el tipo de usuario
+    // Verificar si hay un rol específico en la URL
+    const role = req.nextUrl.searchParams.get("role");
+
+    if (role) {
+      // Si hay un rol específico, redirigir a ese dashboard
+      switch (role) {
+        case "admin":
+          return NextResponse.redirect(new URL("/admin", req.url));
+        case "maestro":
+          return NextResponse.redirect(new URL("/maestro", req.url));
+        case "alumno":
+          return NextResponse.redirect(new URL("/alumno", req.url));
+      }
+    }
+
+    // Si no hay rol específico o el rol no coincide, usar el tipo_usuario de la base de datos
     const { data: usuarioData } = await supabase
       .from("usuarios")
-      .select("tipo_usuario")
+      .select("id_rol")
       .eq("email", session.user.email)
       .single();
 
-    switch (usuarioData?.tipo_usuario) {
+    switch (usuarioData?.id_rol) {
       case "admin":
         return NextResponse.redirect(new URL("/admin", req.url));
       case "maestro":
-        return NextResponse.redirect(new URL("/teacher", req.url));
+        return NextResponse.redirect(new URL("/maestro", req.url));
       case "alumno":
         return NextResponse.redirect(new URL("/alumno", req.url));
+      default:
+        return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
