@@ -9,12 +9,9 @@ export async function signInWithEmailAndPassword(data: {
 }) {
   const supabase = await createSupabaseServerClient();
 
-  const result = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  });
+  const result = await supabase.auth.signInWithPassword(data);
 
-  return result;
+  return JSON.stringify(result);
 }
 
 export async function logout() {

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UsersTable } from "./usuarios/components/users-table";
 
 const types_of_users = [
     { name: 'Estudiantes', total: 100 },
@@ -60,7 +61,7 @@ const AdminPage = () => {
                                     <CardDescription>Administra maestros y alumnos del sistema.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <UsersTable /> */}
+                                    <UsersTable />
                                 </CardContent>
                             </Card>
                         </TabsContent>

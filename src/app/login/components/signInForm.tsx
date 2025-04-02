@@ -44,7 +44,7 @@ export function LoginForm({
 
         startTransition(async () => {
 
-            const { error } = await signInWithEmailAndPassword(data) as AuthTokenResponse;
+            const { error } = JSON.parse(await signInWithEmailAndPassword(data)) as AuthTokenResponse;
 
             if (error) {
                 toast({
