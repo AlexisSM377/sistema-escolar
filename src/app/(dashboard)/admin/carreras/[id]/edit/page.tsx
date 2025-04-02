@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
-
 import { createSupabaseAdmin } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import CarreraForm from "../../components/edit-carrera";
-import Link from "next/link";
+import EditCarreraForm from "../../components/edit-carrera";
 
 
 interface EditCarreraPageProps {
@@ -26,17 +23,12 @@ export default async function EditCarreraPage({ params }: EditCarreraPageProps) 
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold">Editar Carrera</h1>
-                    <p className="opacity-80 mt-2">Modificar información de la carrera {carrera.nombre}</p>
-                </div>
-                <Button variant="outline" asChild>
-                    <Link href="/admin/carreras">Volver</Link>
-                </Button>
+            <div>
+                <h1 className="text-3xl font-bold">Editar Carrera</h1>
+                <p className="text-gray-500 mt-2">Modificar información de la carrera {carrera.nombre}</p>
             </div>
             <div className="border rounded-lg p-6 bg-card">
-                <CarreraForm initialData={carrera} isEditing={true} />
+                <EditCarreraForm carrera={carrera} />
             </div>
         </div>
     );

@@ -1,81 +1,79 @@
 'use client'
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { updateCarrera } from "../actions";
+import { z } from "zod"
+import { updateMateria } from "../../actions";
+import { toast } from "@/hooks/use-toast";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
-const carreraSchema = z.object({
+const materiaSchema = z.object({
     nombre: z.string().min(3, { message: "El nombre debe tener al menos 3 caracteres" }),
     codigo: z.string().min(2, { message: "El código debe tener al menos 2 caracteres" }),
-    duracion_cuatrimestres: z.coerce.string().min(1, { message: "Ingrese la duración en cuatrimestres" }),
     activa: z.boolean().default(true)
-});
+})
 
-type CarreraFormValues = z.infer<typeof carreraSchema>;
+type MateriaFormValues = z.infer<typeof materiaSchema>
 
-interface EditCarreraFormProps {
-    carrera: {
-        id: string;
-        nombre: string;
-        codigo: string;
-        duracion_cuatrimestres: string | number;
-        activa: boolean;
-    };
+interface MateriaFormProps {
+    materia: {
+        id: string
+        nombre: string
+        codigo: string
+        activa: boolean
+    }
 }
 
-export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
+
+export default function MateriaFormEdit({ materia }: MateriaFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const form = useForm<CarreraFormValues>({
-        resolver: zodResolver(carreraSchema),
-        defaultValues: {
-            nombre: carrera.nombre,
-            codigo: carrera.codigo,
-            duracion_cuatrimestres: carrera.duracion_cuatrimestres.toString(),
-            activa: carrera.activa
-        }
-    });
 
-    async function onSubmit(data: CarreraFormValues) {
+    const form = useForm<MateriaFormValues>({
+        resolver: zodResolver(materiaSchema),
+        defaultValues: {
+            nombre: materia.nombre,
+            codigo: materia.codigo,
+            activa: materia.activa
+        }
+    })
+
+    async function onSubmit(data: MateriaFormValues) {
         setIsLoading(true);
         try {
-            const result = await updateCarrera(carrera.id, data);
+            const result = await updateMateria(materia.id, data);
             if (result.error) {
                 toast({
                     title: "Error",
-                    description: "No se pudo actualizar la carrera: " + result.error.message,
+                    description: "No se pudo actualizar la materia: " + result.error.message,
                     variant: "destructive",
                 });
             } else {
                 toast({
-                    title: "Carrera actualizada",
-                    description: "La carrera se ha actualizado correctamente",
+                    title: "Materia actualizada",
+                    description: "La materia se ha actualizado correctamente",
                 });
-                router.push("/admin/carreras");
+                router.push("/admin/materias");
                 router.refresh();
             }
         } catch (error) {
             toast({
                 title: "Error",
-                description: "Ocurrió un error inesperado: " + error,
+                description: "No se pudo actualizar la materia: " + error,
                 variant: "destructive",
             });
         } finally {
             setIsLoading(false);
         }
     }
-
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                     control={form.control}
                     name="nombre"
@@ -83,13 +81,13 @@ export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
                         <FormItem>
                             <FormLabel>Nombre</FormLabel>
                             <FormControl>
-                                <Input placeholder="Ingeniería en Sistemas" {...field} disabled={isLoading} />
+                                <Input placeholder="Programación Orientada a Objetos" {...field} />
                             </FormControl>
-                            <FormDescription>Nombre de la carrera</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
                 <FormField
                     control={form.control}
                     name="codigo"
@@ -97,27 +95,13 @@ export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
                         <FormItem>
                             <FormLabel>Código</FormLabel>
                             <FormControl>
-                                <Input placeholder="ING-SIS" {...field} disabled={isLoading} />
+                                <Input placeholder="POO" {...field} />
                             </FormControl>
-                            <FormDescription>Código único para la carrera</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="duracion_cuatrimestres"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Duración (cuatrimestres)</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="9" {...field} disabled={isLoading} />
-                            </FormControl>
-                            <FormDescription>Número de cuatrimestres de la carrera</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+
                 <FormField
                     control={form.control}
                     name="activa"
@@ -126,7 +110,7 @@ export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
                             <div className="space-y-0.5">
                                 <FormLabel className="text-base">Activa</FormLabel>
                                 <FormDescription>
-                                    Determina si la carrera está activa actualmente
+                                    Determina si la materia está activa actualmente
                                 </FormDescription>
                             </div>
                             <FormControl>
@@ -139,11 +123,12 @@ export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
                         </FormItem>
                     )}
                 />
+
                 <div className="flex items-center justify-end space-x-4">
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => router.push("/admin/carreras")}
+                        onClick={() => router.push("/admin/materias")}
                         disabled={isLoading}
                     >
                         Cancelar
@@ -154,5 +139,5 @@ export default function EditCarreraForm({ carrera }: EditCarreraFormProps) {
                 </div>
             </form>
         </Form>
-    );
+    )
 }
