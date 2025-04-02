@@ -60,7 +60,7 @@ export default function ListOfMaterias() {
                                     )}
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <Button variant="ghost" size="sm" asChild>
+                                    <Button variant="ghost" size="sm" asChild className="text-sm">
                                         <Link href={`/admin/materias/${materia.id}/edit`}>
                                             Editar
                                         </Link>

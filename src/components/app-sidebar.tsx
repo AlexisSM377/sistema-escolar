@@ -6,6 +6,7 @@ import {
   GraduationCapIcon,
   GroupIcon,
   HomeIcon,
+  NotebookPenIcon,
   UsersIcon,
 } from "lucide-react"
 
@@ -53,6 +54,11 @@ const data = {
       title: "Materias",
       url: "/admin/materias",
       icon: BookOpenIcon,
+    },
+    {
+      title: "Planes de estudio",
+      url: "/admin/planes",
+      icon: NotebookPenIcon,
     },
   ],
 }

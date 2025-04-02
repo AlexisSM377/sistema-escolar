@@ -117,7 +117,7 @@ export default function CarreraForm() {
                     className="w-full flex gap-2 items-center"
                     variant="outline"
                 >
-                    Crear Carrera
+                    Crear Carrera{" "}
                     <LoaderCircle
                         className={cn("animate-spin", { hidden: !isPending })}
                     />
