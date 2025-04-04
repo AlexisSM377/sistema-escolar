@@ -19,12 +19,14 @@ export default function DialogForm({
             <DialogTrigger asChild id={id}>
                 {Trigger}
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-full sm:max-w-lg mx-auto">
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>
                 </DialogHeader>
-                {form}
+                <div className="overflow-y-auto max-h-[80vh] px-2">
+                    {form}
+                </div>
             </DialogContent>
         </Dialog>
     )

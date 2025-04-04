@@ -65,13 +65,13 @@ export default function EditMateriaNivelForm(
             if (result.error) {
                 toast({
                     title: "Error",
-                    description: "Error al crear la materia nivel",
+                    description: "Error al actualizar la materia nivel",
                     variant: "destructive",
                 })
             } else {
                 toast({
                     title: "Éxito",
-                    description: "Materia nivel creada correctamente",
+                    description: "Materia nivel actualizada correctamente",
                     variant: "default",
                 })
                 router.push("/admin/materia-nivel")
@@ -79,7 +79,7 @@ export default function EditMateriaNivelForm(
         } catch (error) {
             toast({
                 title: "Error",
-                description: "Error al crear la materia nivel" + error,
+                description: "Error al actualizar la materia nivel" + error,
                 variant: "destructive",
             })
         } finally {
