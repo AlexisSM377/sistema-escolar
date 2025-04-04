@@ -1,0 +1,84 @@
+'use client'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { deleteGrupo } from "../actions";
+
+interface DeleteGrupoProps {
+    grupoId: string;
+    grupoNombre: string;
+}
+export function DeleteGrupo(
+    { grupoId, grupoNombre }: DeleteGrupoProps
+) {
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+    const handleDelete = async () => {
+        setIsLoading(true);
+        try {
+            const result = await deleteGrupo(grupoId);
+            if (result.error) {
+                toast({
+                    title: "Error",
+                    description: `No se pudo eliminar el grupo "${grupoNombre}". ${result.error.message}`,
+                    variant: "destructive",
+                });
+            } else {
+                toast({
+                    title: "Grupo eliminado",
+                    description: `El grupo "${grupoNombre}" ha sido eliminado correctamente.`,
+                    variant: "destructive",
+                });
+                // Refrescar la página para mostrar la lista actualizada
+                router.refresh();
+            }
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: "Hubo un problema al eliminar el grupo." + error,
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-destructive text-sm">Eliminar</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Esta acción no se puede deshacer. Esto eliminará permanentemente el grupo {grupoNombre} y todos los datos asociados.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction
+                        onClick={handleDelete}
+                        disabled={isLoading}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                        {isLoading ? "Eliminando..." : "Eliminar"}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )
+}
