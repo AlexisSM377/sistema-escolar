@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="bg-primary px-4 py-3 text-primary-foreground">
-        <div className="container mx-auto flex items-center justify-between">
+        <div className="container mx-auto flex items-center justify-between max-w-4xl w-full">
           <h1 className="text-xl font-bold">Sistema de Calificaciones</h1>
         </div>
       </header>
@@ -36,7 +36,7 @@ export default function Home() {
         </section>
       </main>
       <footer className="border-t py-6">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div className="container max-w-4xl mx-auto flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">
             &copy; {new Date().getFullYear()} Sistema de Calificaciones. Todos los derechos reservados.
           </p>

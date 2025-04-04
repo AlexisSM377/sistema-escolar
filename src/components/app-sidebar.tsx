@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   BookOpenIcon,
+  CalendarRangeIcon,
   GraduationCapIcon,
   GroupIcon,
   HomeIcon,
@@ -67,6 +68,11 @@ const data = {
       url: "/admin/planes",
       icon: NotebookPenIcon,
     },
+    {
+      title: "Cuatrimestres",
+      url: "/admin/cuatrimestres",
+      icon: CalendarRangeIcon,
+    }
   ],
 }
 
