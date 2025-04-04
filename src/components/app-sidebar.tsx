@@ -54,6 +54,13 @@ const data = {
       title: "Materias",
       url: "/admin/materias",
       icon: BookOpenIcon,
+      isActive: true,
+      items: [
+        {
+          title: "Materias por carrera",
+          url: "/admin/materia-nivel",
+        }
+      ]
     },
     {
       title: "Planes de estudio",

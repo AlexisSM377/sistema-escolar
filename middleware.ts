@@ -16,13 +16,13 @@ export async function middleware(req: NextRequest) {
   const protectedRoutes = ["/admin", "/maestro", "/alumno"];
 
   // Rutas de inicio de sesión y registro
-  const authRoutes = ["/login"];
+  const authRoutes = ["/"];
 
   const path = req.nextUrl.pathname;
 
   // Si no hay sesión y se intenta acceder a rutas protegidas
   if (protectedRoutes.some((route) => path.startsWith(route)) && !session) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Si hay sesión y se intenta acceder a rutas de autenticación
