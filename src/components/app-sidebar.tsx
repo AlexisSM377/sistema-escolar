@@ -72,7 +72,12 @@ const data = {
       title: "Cuatrimestres",
       url: "/admin/cuatrimestres",
       icon: CalendarRangeIcon,
-    }
+    },
+    {
+      title: "Asignación de profesores",
+      url: "/admin/profesor",
+      icon: UsersIcon,
+    },
   ],
 }
 
