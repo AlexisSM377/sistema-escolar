@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     const { data } = await readUserSession()
 
     if (!data.user) {
-        return redirect("/login")
+        return redirect("/login?role=maestro")
     }
 
     return (

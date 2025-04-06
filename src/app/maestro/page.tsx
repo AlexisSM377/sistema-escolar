@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MisGrupos from "./grupos/components/list-mis-grupos";
+import ListOfAlumnosMaestro from "./alumnos/components/list-alumnos";
 
 const types_of_users = [
     { name: 'Mis Grupos', total: 100 },
@@ -46,51 +48,53 @@ const AdminPage = () => {
                         }
                     </div>
 
-                    <Tabs defaultValue="usuarios" className="space-y-4">
+                    <Tabs defaultValue="grupos" className="space-y-4">
                         <TabsList>
-                            <TabsTrigger value="usuarios">Usuarios</TabsTrigger>
-                            <TabsTrigger value="carreras">Carreras</TabsTrigger>
-                            <TabsTrigger value="materias">Materias</TabsTrigger>
-                            <TabsTrigger value="grupos">Grupos</TabsTrigger>
+                            <TabsTrigger value="grupos">Mis grupos</TabsTrigger>
+                            <TabsTrigger value="alumnos">Alumnos</TabsTrigger>
+                            <TabsTrigger value="calificaciones">Calificaciones</TabsTrigger>
+                            <TabsTrigger value="materias">Mis materias</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="usuarios" className="space-y-4">
+                        <TabsContent value="grupos" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Usuarios</CardTitle>
-                                    <CardDescription>Administra maestros y alumnos del sistema.</CardDescription>
+                                    <CardTitle>Grupos Asignados</CardTitle>
+                                    <CardDescription>
+                                        Administra los grupos que tienes asignados este semestre.
+                                    </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <UsersTable /> */}
+                                    <MisGrupos />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="carreras" className="space-y-4">
+                        <TabsContent value="alumnos" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Carreras</CardTitle>
-                                    <CardDescription>Administra las carreras disponibles en la institución.</CardDescription>
+                                    <CardTitle>Gestión de Alumnos</CardTitle>
+                                    <CardDescription>Administra los alumnos de tus grupos.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <CarrerasTable /> */}
+                                    <ListOfAlumnosMaestro />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="materias" className="space-y-4">
+                        <TabsContent value="calificaciones" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Materias</CardTitle>
-                                    <CardDescription>Administra las materias disponibles en la institución.</CardDescription>
+                                    <CardTitle>Registro de Calificaciones</CardTitle>
+                                    <CardDescription>Registra y modifica las calificaciones de tus alumnos.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     {/* <MateriasTable /> */}
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="grupos" className="space-y-4">
+                        <TabsContent value="materias" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Grupos</CardTitle>
-                                    <CardDescription>Administra los grupos disponibles en la institución.</CardDescription>
+                                    <CardTitle>Mis Materias</CardTitle>
+                                    <CardDescription>Administra las materias que impartes.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     {/* <GruposTable /> */}

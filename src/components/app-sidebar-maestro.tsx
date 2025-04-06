@@ -36,12 +36,12 @@ const data = {
         },
         {
             title: "Mis Grupos",
-            url: "/maestro",
+            url: "/maestro/grupos",
             icon: GroupIcon,
         },
         {
             title: "Alumnos",
-            url: "/maestro",
+            url: "/maestro/alumnos",
             icon: GraduationCapIcon,
         },
         {
@@ -51,7 +51,7 @@ const data = {
         },
         {
             title: "Calificaciones",
-            url: "/maestro",
+            url: "/maestro/calificaciones",
             icon: ClipboardListIcon,
         },
     ],
