@@ -8,6 +8,7 @@ import {
   GroupIcon,
   HomeIcon,
   NotebookPenIcon,
+  UserPlusIcon,
   UsersIcon,
 } from "lucide-react"
 
@@ -72,6 +73,16 @@ const data = {
       title: "Cuatrimestres",
       url: "/admin/cuatrimestres",
       icon: CalendarRangeIcon,
+    },
+    {
+      title: "Asignación de profesores",
+      url: "/admin/profesor",
+      icon: UsersIcon,
+    },
+    {
+      title: "Asignacion de alumnos",
+      url: "/admin/alumnos",
+      icon: UserPlusIcon
     }
   ],
 }
