@@ -10,20 +10,23 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { deleteGrupoProfesor } from "../actions";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { deleteGrupoAlumno } from "../actions";
+import { Button } from "@/components/ui/button";
 
-
-interface DeleteProfesorGrupoProps {
+interface DeleteAlumnoGrupoProps {
     grupoId: string;
     grupoNombre: string;
 }
-export function DeleteProfesorGrupo(
-    { grupoId, grupoNombre }: DeleteProfesorGrupoProps
+
+export function DeleteAlumnoGrupo({
+    grupoId,
+    grupoNombre
+}: DeleteAlumnoGrupoProps
 ) {
+
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
@@ -31,7 +34,7 @@ export function DeleteProfesorGrupo(
     const handleDelete = async () => {
         setIsLoading(true);
         try {
-            const result = await deleteGrupoProfesor(grupoId);
+            const result = await deleteGrupoAlumno(grupoId);
             if (result.error) {
                 toast({
                     title: "Error",
@@ -55,7 +58,6 @@ export function DeleteProfesorGrupo(
             });
         }
     }
-
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -82,6 +84,5 @@ export function DeleteProfesorGrupo(
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-
     )
 }

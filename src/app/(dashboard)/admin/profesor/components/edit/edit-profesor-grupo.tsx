@@ -112,7 +112,7 @@ export default function EditProfesorGrupoForm({
                     name="id_grupo"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Materia</FormLabel>
+                            <FormLabel>Grupo</FormLabel>
                             <Select
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}

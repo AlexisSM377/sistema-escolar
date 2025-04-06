@@ -70,7 +70,7 @@ export default function ListOfProfesorGrupo() {
                 <TableHeader>
                     <TableRow>
                         <TableHead>ID</TableHead>
-                        <TableHead>Profesor</TableHead>
+                        <TableHead>Nombre Profesor</TableHead>
                         <TableHead>Grupo</TableHead>
                         <TableHead>Materia</TableHead>
                         <TableHead>Cuatrimestre</TableHead>
