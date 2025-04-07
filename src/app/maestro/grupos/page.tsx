@@ -9,8 +9,8 @@ export default function page() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-base">Grupos Asignados</CardTitle>
-                    <CardDescription className="text-sm">Administra los grupos que tienes asignados este semestre.</CardDescription>
+                    <CardTitle className="text-2xl">Grupos Asignados</CardTitle>
+                    <CardDescription className="text-xl">Administra los grupos que tienes asignados este semestre.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex items-center justify-between">

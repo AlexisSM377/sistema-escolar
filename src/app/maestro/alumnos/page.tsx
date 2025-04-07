@@ -6,9 +6,9 @@ export default function page() {
         <div className="space-y-4">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-base">Gestión de Alumnos
+                    <CardTitle className="text-2xl">Gestión de Alumnos
                     </CardTitle>
-                    <CardDescription className="text-sm">Administra los alumnos de tus grupos.</CardDescription>
+                    <CardDescription className="text-xl">Administra los alumnos de tus grupos.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex items-center justify-between">

@@ -22,7 +22,7 @@ export async function getMisGrupos() {
       grupos (
         id, 
         clave_grupo, 
-        materias (id, nombre), 
+        materias (id, nombre, codigo), 
         cuatrimestres (id, nombre)
       )
     `

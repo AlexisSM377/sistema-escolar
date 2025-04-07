@@ -73,6 +73,7 @@ export default function ListOfAlumnosMaestro() {
                         <TableHead>Matricula</TableHead>
                         <TableHead>Grupo</TableHead>
                         <TableHead>Cuatrimestre</TableHead>
+                        <TableHead>Estado</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -84,6 +85,19 @@ export default function ListOfAlumnosMaestro() {
                                 <TableCell>{alumno.usuarios.matricula}</TableCell>
                                 <TableCell>{alumno.grupos.clave_grupo}</TableCell>
                                 <TableCell>{alumno.grupos.cuatrimestres.nombre}</TableCell>
+                                <TableCell>
+                                    <span
+                                        className={
+                                            alumno.estado === "aprobado"
+                                                ? "text-green-500"
+                                                : alumno.estado === "reprobado"
+                                                    ? "text-red-500"
+                                                    : "text-blue-500"
+                                        }
+                                    >
+                                        {alumno.estado}
+                                    </span>
+                                </TableCell>
                             </TableRow>
                         ))
                     ) : (
