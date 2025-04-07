@@ -107,6 +107,7 @@ export async function actualizarCalificaciones(data: {
           segundo_parcial: data.segundo_parcial,
           tercer_parcial: data.tercer_parcial,
           calificacion_final: data.calificacion_final,
+          id_usuario: user.id, // Registrar el ID del maestro
         })
         .eq("id", existingCalificacion.id)
         .select()
@@ -128,6 +129,7 @@ export async function actualizarCalificaciones(data: {
         segundo_parcial: data.segundo_parcial,
         tercer_parcial: data.tercer_parcial,
         calificacion_final: data.calificacion_final,
+        id_usuario: user.id, // Registrar el ID del maestro
       })
       .select()
       .single();
@@ -206,25 +208,7 @@ export async function getCalificaciones() {
 
     const supabase = await createSupabaseAdmin();
 
-    // Obtener los grupos asignados al profesor
-    const { data: gruposProfesor, error: gruposError } = await supabase
-      .from("grupo_profesores")
-      .select("id_grupo")
-      .eq("id_usuario", user.id);
-
-    if (gruposError) {
-      return { error: gruposError };
-    }
-
-    // Extraer los IDs de los grupos
-    const gruposIds = gruposProfesor.map((grupo) => grupo.id_grupo);
-
-    if (gruposIds.length === 0) {
-      // Si el profesor no tiene grupos asignados, devolver una lista vacía
-      return { grupo_alumno: [] };
-    }
-
-    // Obtener las calificaciones de los alumnos en los grupos del profesor
+    // Obtener las calificaciones realizadas por el profesor autenticado
     const { data: calificaciones, error } = await supabase
       .from("calificaciones")
       .select(
@@ -253,7 +237,7 @@ export async function getCalificaciones() {
         )
       `
       )
-      .in("inscripciones.id_grupo", gruposIds); // Filtrar por los grupos del profesor
+      .eq("id_usuario", user.id); // Filtrar por el usuario que calificó
 
     if (error) {
       return { error };
