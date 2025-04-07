@@ -1,16 +1,16 @@
-
-
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UsersTable } from "./usuarios/components/users-table";
+import ListOfMaterias from "./materias/components/list-of-materias";
+import ListOfAlumnosGrupo from "./alumnos/components/list-alumnos-grupo";
+import ListOfProfesorGrupo from "./profesor/components/list-profesor-grupo";
 
-const types_of_users = [
-    { name: 'Estudiantes', total: 100 },
-    { name: 'Maestros', total: 100 },
-    { name: 'Grupos', total: 100 },
-    { name: 'Materias', total: 100 },
-]
+// const types_of_users = [
+//     { name: 'Estudiantes', total: 100 },
+//     { name: 'Maestros', total: 100 },
+//     { name: 'Grupos', total: 100 },
+//     { name: 'Materias', total: 100 },
+// ]
 
 const AdminPage = () => {
     return (
@@ -20,13 +20,13 @@ const AdminPage = () => {
 
                     <div className="flex items-center justify-between mb-6">
                         <h1 className="text-3xl font-bold tracking-tight">Panel de Administrador</h1>
-                        <div className="flex items-center gap-2">
+                        {/* <div className="flex items-center gap-2">
                             <Button>Exportar Datos</Button>
                             <Button variant="outline">Configuración</Button>
-                        </div>
+                        </div> */}
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+                    {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
 
                         {
                             types_of_users.map((i) => (
@@ -45,14 +45,14 @@ const AdminPage = () => {
                                 </Card>
                             ))
                         }
-                    </div>
+                    </div> */}
 
                     <Tabs defaultValue="usuarios" className="space-y-4">
                         <TabsList>
                             <TabsTrigger value="usuarios">Usuarios</TabsTrigger>
-                            <TabsTrigger value="carreras">Carreras</TabsTrigger>
+                            <TabsTrigger value="carreras">Asignación de profesores</TabsTrigger>
                             <TabsTrigger value="materias">Materias</TabsTrigger>
-                            <TabsTrigger value="grupos">Grupos</TabsTrigger>
+                            <TabsTrigger value="grupos">Asignacion de alumnos</TabsTrigger>
                         </TabsList>
                         <TabsContent value="usuarios" className="space-y-4">
                             <Card>
@@ -68,11 +68,11 @@ const AdminPage = () => {
                         <TabsContent value="carreras" className="space-y-4">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Carreras</CardTitle>
-                                    <CardDescription>Administra las carreras disponibles en la institución.</CardDescription>
+                                    <CardTitle>Asigancion de profesores a grupos</CardTitle>
+                                    <CardDescription>Administra la asignación de profesores a los grupos disponibles en la institución.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <CarrerasTable /> */}
+                                    <ListOfProfesorGrupo />
                                 </CardContent>
                             </Card>
                         </TabsContent>
@@ -83,18 +83,18 @@ const AdminPage = () => {
                                     <CardDescription>Administra las materias disponibles en la institución.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <MateriasTable /> */}
+                                    <ListOfMaterias />
                                 </CardContent>
                             </Card>
                         </TabsContent>
                         <TabsContent value="grupos" className="space-y-4">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Grupos</CardTitle>
-                                    <CardDescription>Administra los grupos disponibles en la institución.</CardDescription>
+                                    <CardTitle>Asignación de estudiantes a grupos</CardTitle>
+                                    <CardDescription>Administra la asignación de estudiantes a los grupos disponibles en la institución.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <GruposTable /> */}
+                                    <ListOfAlumnosGrupo />
                                 </CardContent>
                             </Card>
                         </TabsContent>
