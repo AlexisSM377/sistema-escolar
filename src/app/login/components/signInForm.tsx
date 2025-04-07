@@ -119,7 +119,7 @@ export function LoginForm({
                                     Bienvenido
                                 </h1>
                                 <p className="text-balance text-muted-foreground">
-                                    Inicia sesión para continuar
+                                    Inicia sesión para continuar como {role === "admin" ? "administrador" : "maestro"}.
                                 </p>
                             </div>
                             <FormField

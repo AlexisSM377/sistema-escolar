@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MisGrupos from "./grupos/components/list-mis-grupos";
+import ListOfAlumnosMaestro from "./alumnos/components/list-alumnos";
+import ListOfCalificaciones from "./calificaciones/components/list-calificaiones";
+import Link from "next/link";
+// const types_of_users = [
+//     { name: 'Mis Grupos', total: 100 },
+//     { name: 'Total Alumnos', total: 100 },
+//     { name: 'Calificaciones Pendientes', total: 100 },
+//     { name: 'Materias Asignadas', total: 100 },
 
-const types_of_users = [
-    { name: 'Mis Grupos', total: 100 },
-    { name: 'Total Alumnos', total: 100 },
-    { name: 'Calificaciones Pendientes', total: 100 },
-    { name: 'Materias Asignadas', total: 100 },
-
-]
+// ]
 
 const AdminPage = () => {
     return (
@@ -21,11 +24,10 @@ const AdminPage = () => {
                         <h1 className="text-3xl font-bold tracking-tight">Panel de Maestro</h1>
                         <div className="flex items-center gap-2">
                             <Button>Exportar Datos</Button>
-                            <Button variant="outline">Configuración</Button>
                         </div>
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+                    {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
 
                         {
                             types_of_users.map((i) => (
@@ -44,59 +46,59 @@ const AdminPage = () => {
                                 </Card>
                             ))
                         }
-                    </div>
+                    </div> */}
 
-                    <Tabs defaultValue="usuarios" className="space-y-4">
+                    <Tabs defaultValue="grupos" className="space-y-4">
                         <TabsList>
-                            <TabsTrigger value="usuarios">Usuarios</TabsTrigger>
-                            <TabsTrigger value="carreras">Carreras</TabsTrigger>
-                            <TabsTrigger value="materias">Materias</TabsTrigger>
-                            <TabsTrigger value="grupos">Grupos</TabsTrigger>
+                            <TabsTrigger value="grupos">Mis grupos</TabsTrigger>
+                            <TabsTrigger value="alumnos">Alumnos</TabsTrigger>
+                            <TabsTrigger value="calificaciones">Calificaciones</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="usuarios" className="space-y-4">
+                        <TabsContent value="grupos" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Usuarios</CardTitle>
-                                    <CardDescription>Administra maestros y alumnos del sistema.</CardDescription>
+                                    <CardTitle>Grupos Asignados</CardTitle>
+                                    <CardDescription>
+                                        Administra los grupos que tienes asignados este semestre.
+                                    </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <UsersTable /> */}
+                                    <MisGrupos />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="carreras" className="space-y-4">
+                        <TabsContent value="alumnos" className="space-y-4 text-lg">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gestión de Carreras</CardTitle>
-                                    <CardDescription>Administra las carreras disponibles en la institución.</CardDescription>
+                                    <CardTitle>Gestión de Alumnos</CardTitle>
+                                    <CardDescription>Administra los alumnos de tus grupos.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <CarrerasTable /> */}
+                                    <ListOfAlumnosMaestro />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="materias" className="space-y-4">
+                        <TabsContent value="calificaciones" className="space-y-4 text-lg">
                             <Card>
-                                <CardHeader>
-                                    <CardTitle>Gestión de Materias</CardTitle>
-                                    <CardDescription>Administra las materias disponibles en la institución.</CardDescription>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <div>
+                                        <CardTitle className="text-base font-medium">Calificaciones</CardTitle>
+                                        <CardDescription>Administra las calificaciones de tus alumnos.</CardDescription>
+                                    </div>
+
+                                    <Button className="mt-2">
+                                        <Link href="/maestro/calificaciones">
+                                            Registrar Calificaciones
+                                        </Link>
+                                    </Button>
+
                                 </CardHeader>
                                 <CardContent>
-                                    {/* <MateriasTable /> */}
+                                    <ListOfCalificaciones />
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="grupos" className="space-y-4">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Gestión de Grupos</CardTitle>
-                                    <CardDescription>Administra los grupos disponibles en la institución.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    {/* <GruposTable /> */}
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
+
                     </Tabs>
                 </main>
             </div>

@@ -1,11 +1,12 @@
 'use client'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import { getGrupos } from "../actions"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { DeleteGrupo } from "./delete-grupo"
+import { UIPagination } from "@/components/ui-pagination"
 interface Grupo {
     id: string
     id_materia: string
@@ -28,6 +29,9 @@ export default function ListOfGrupos() {
     const [grupos, setGrupos] = useState<Grupo[]>([])
 
     const [isLoading, setIsLoading] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
 
     useEffect(() => {
         const fetchGrupos = async () => {
@@ -60,6 +64,13 @@ export default function ListOfGrupos() {
     if (isLoading) {
         return <div className="flex justify-center p-8">Cargando planes de estudio...</div>;
     }
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentGrupos = grupos.slice(indexOfFirstItem, indexOfLastItem)
+
+    const handlePageChange = (pageNumber: SetStateAction<number>) => {
+        setCurrentPage(pageNumber)
+    }
 
     return (
         <div className="overflow-hidden rounded-md border">
@@ -76,8 +87,8 @@ export default function ListOfGrupos() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {grupos.length > 0 ? (
-                        grupos.map((grupo) => (
+                    {currentGrupos.length > 0 ? (
+                        currentGrupos.map((grupo) => (
                             <TableRow key={grupo.id}>
                                 <TableCell>{grupo.id.substring(0, 8)}</TableCell>
                                 <TableCell>{grupo.materias.nombre}</TableCell>
@@ -113,6 +124,16 @@ export default function ListOfGrupos() {
                     )}
                 </TableBody>
             </Table>
+
+            <UIPagination
+                totalItems={grupos.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={handlePageChange} />
+
+            <div className="text-xs text-muted-foreground text-center">
+                Mostrando {currentGrupos.length} de {grupos.length} grupos
+            </div>
         </div>
     )
 }

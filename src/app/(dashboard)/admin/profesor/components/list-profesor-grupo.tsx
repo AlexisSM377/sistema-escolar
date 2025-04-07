@@ -1,11 +1,12 @@
 'use client'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { toast } from "@/hooks/use-toast"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import { getGrupoProfesor } from "../actions"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { DeleteProfesorGrupo } from "./delete-profesor-grupo"
+import { UIPagination } from "@/components/ui-pagination"
 
 interface ProfesorGrupo {
     id: string
@@ -31,8 +32,11 @@ interface ProfesorGrupo {
 
 export default function ListOfProfesorGrupo() {
 
+
     const [grupo_profesor, setProfesorGrupo] = useState<ProfesorGrupo[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
 
     useEffect(() => {
         const fetchProfesorGrupo = async () => {
@@ -64,6 +68,14 @@ export default function ListOfProfesorGrupo() {
         return <div className="flex justify-center p-8">Cargando grupos de profesores...</div>;
     }
 
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentPorfesores = grupo_profesor.slice(indexOfFirstItem, indexOfLastItem)
+
+    const handlePageChange = (pageNumber: SetStateAction<number>) => {
+        setCurrentPage(pageNumber)
+    }
+
     return (
         <div className="overflow-hidden rounded-md border">
             <Table>
@@ -78,8 +90,8 @@ export default function ListOfProfesorGrupo() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {grupo_profesor.length > 0 ? (
-                        grupo_profesor.map((grupo) => (
+                    {currentPorfesores.length > 0 ? (
+                        currentPorfesores.map((grupo) => (
                             <TableRow key={grupo.id}>
                                 <TableCell>{grupo.id.substring(0, 8)}</TableCell>
                                 <TableCell>{grupo.usuarios?.nombre || 'No disponible'}</TableCell>
@@ -106,6 +118,16 @@ export default function ListOfProfesorGrupo() {
                     )}
                 </TableBody>
             </Table>
+
+            <UIPagination
+                totalItems={grupo_profesor.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={handlePageChange} />
+
+            <div className="text-xs text-muted-foreground text-center">
+                Mostrando {currentPorfesores.length} de {grupo_profesor.length} profesores
+            </div>
         </div>
     )
 }

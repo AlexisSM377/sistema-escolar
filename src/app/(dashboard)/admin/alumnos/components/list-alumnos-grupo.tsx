@@ -1,11 +1,12 @@
 'use client'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { toast } from "@/hooks/use-toast"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import { getGrupoAlumno } from "../actions"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { DeleteAlumnoGrupo } from "./delete-alumno-grupo"
+import { UIPagination } from "@/components/ui-pagination"
 
 interface AlumnoGrupo {
     id: string
@@ -34,6 +35,9 @@ export default function ListOfAlumnosGrupo() {
 
     const [grupo_alumno, setAlumnoGrupo] = useState<AlumnoGrupo[]>([])
     const [isLoading, setIsLoading] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
 
     useEffect(() => {
         const fetchAlumnoGrupo = async () => {
@@ -64,6 +68,15 @@ export default function ListOfAlumnosGrupo() {
     if (isLoading) {
         return <div className="flex justify-center p-8">Cargando grupos de profesores...</div>;
     }
+
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentAlumnos = grupo_alumno.slice(indexOfFirstItem, indexOfLastItem)
+
+    const handlePageChange = (pageNumber: SetStateAction<number>) => {
+        setCurrentPage(pageNumber)
+    }
+
     return (
         <div className="overflow-hidden rounded-md border">
             <Table >
@@ -81,8 +94,8 @@ export default function ListOfAlumnosGrupo() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {grupo_alumno.length > 0 ? (
-                        grupo_alumno.map((alumno) => (
+                    {currentAlumnos.length > 0 ? (
+                        currentAlumnos.map((alumno) => (
                             <TableRow key={alumno.id}>
                                 <TableCell>
                                     {alumno.id.substring(0, 8)}
@@ -128,6 +141,16 @@ export default function ListOfAlumnosGrupo() {
                     }
                 </TableBody>
             </Table>
+
+            <UIPagination
+                totalItems={grupo_alumno.length}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={handlePageChange} />
+
+            <div className="text-sm text-muted-foreground text-center">
+                Mostrando {currentAlumnos.length} de {grupo_alumno.length} alumnos
+            </div>
         </div>
     )
 }

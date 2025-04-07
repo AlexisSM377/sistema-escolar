@@ -1,11 +1,12 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { getCarreras } from "../actions";
 import { toast } from "@/hooks/use-toast";
 import { DeleteCarreraButton } from "./delete-carrera";
 import Link from "next/link";
+import { UIPagination } from "@/components/ui-pagination";
 
 interface Carrera {
     id: string;
@@ -14,11 +15,18 @@ interface Carrera {
     duracion_cuatrimestres: number;
     activa: boolean;
 }
+interface ListOfCarrerasProps {
+    searchTerm: string; // Prop para el término de búsqueda
+}
 
 
-export default function ListOfCarreras() {
+export default function ListOfCarreras({ searchTerm }: ListOfCarrerasProps) {
 
     const [allCarreras, setAllCarreras] = useState<Carrera[]>([]);
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
+
+
 
 
 
@@ -39,8 +47,22 @@ export default function ListOfCarreras() {
         fetchCarreras();
     }, []);
 
+    const filteredCarreras = allCarreras.filter((carrera) =>
+        carrera.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Calcular usuarios para la página actual
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
+    const currentUsers = filteredCarreras.slice(indexOfFirstItem, indexOfLastItem)
+
+    const handlePageChange = (pageNumber: SetStateAction<number>) => {
+        setCurrentPage(pageNumber)
+    }
+
     return (
         <div className="rounded-md border">
+
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -53,8 +75,8 @@ export default function ListOfCarreras() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {allCarreras.length > 0 ? (
-                        allCarreras.map((carrera) => (
+                    {currentUsers.length > 0 ? (
+                        currentUsers.map((carrera) => (
                             <TableRow key={carrera.id}>
                                 <TableCell>{carrera.id.substring(0, 8)}</TableCell>
                                 <TableCell>{carrera.nombre}</TableCell>
@@ -90,6 +112,19 @@ export default function ListOfCarreras() {
                     )}
                 </TableBody>
             </Table>
+
+            <div className="flex items-center justify-center flex-col">
+
+                <UIPagination
+                    totalItems={filteredCarreras.length}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange} />
+
+                <div className="text-xs text-muted-foreground text-center">
+                    Mostrando {currentUsers.length} de {filteredCarreras.length} usuarios
+                </div>
+            </div>
         </div>
     )
 }
