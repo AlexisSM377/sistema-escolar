@@ -155,32 +155,46 @@ export default function CalificacionesTabla({ idGrupo }: { idGrupo: string }) {
                 <TableCell>
                   <Input
                     type="number"
-                    placeholder="0-10"
-                    defaultValue={alumno.primer_parcial ?? ""}
+                    placeholder="1-10"
                     value={alumno.primer_parcial ?? ""}
-                    onChange={(e) =>
-                      handleInputChange(alumno.id_inscripcion, "primer_parcial", e.target.value)
-                    }
+                    min={1}
+                    max={10}
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      if (value >= 1 && value <= 10) {
+                        handleInputChange(alumno.id_inscripcion, "primer_parcial", e.target.value);
+                      }
+                    }}
                   />
                 </TableCell>
                 <TableCell>
                   <Input
                     type="number"
-                    placeholder="0-10"
+                    placeholder="1-10"
+                    min={1}
+                    max={10}
                     value={alumno.segundo_parcial ?? ""}
-                    onChange={(e) =>
-                      handleInputChange(alumno.id_inscripcion, "segundo_parcial", e.target.value)
-                    }
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      if (value >= 1 && value <= 10) {
+                        handleInputChange(alumno.id_inscripcion, "segundo_parcial", e.target.value)
+                      }
+                    }}
                   />
                 </TableCell>
                 <TableCell>
                   <Input
                     type="number"
-                    placeholder="0-10"
+                    placeholder="1-10"
+                    min={1}
+                    max={10}
                     value={alumno.tercer_parcial ?? ""}
-                    onChange={(e) =>
-                      handleInputChange(alumno.id_inscripcion, "tercer_parcial", e.target.value)
-                    }
+                    onChange={(e) => {
+                      const value = parseFloat(e.target.value);
+                      if (value >= 1 && value <= 10) {
+                        handleInputChange(alumno.id_inscripcion, "tercer_parcial", e.target.value)
+                      }
+                    }}
                   />
                 </TableCell>
                 <TableCell>

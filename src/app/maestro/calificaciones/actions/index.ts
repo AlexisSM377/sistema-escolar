@@ -254,3 +254,41 @@ export async function getCalificaciones() {
     };
   }
 }
+
+export async function editarCalificacion(
+  id: string,
+  updates: Partial<{
+    primer_parcial: number | null;
+    segundo_parcial: number | null;
+    tercer_parcial: number | null;
+    calificacion_final: number | null;
+  }>
+) {
+  try {
+    const { user, error: userError } = await getCurrentUser();
+    if (userError || !user) {
+      return { error: { message: "Usuario no autenticado" } };
+    }
+
+    const supabase = await createSupabaseAdmin();
+
+    const { data: updatedCalificacion, error: updateError } = await supabase
+      .from("calificaciones")
+      .update(updates)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (updateError) {
+      return { error: { message: "Error al actualizar la calificación" } };
+    }
+
+    return { calificacion: updatedCalificacion };
+  } catch (error) {
+    return {
+      error: {
+        message: `Error al editar la calificación: ${(error as Error).message}`,
+      },
+    };
+  }
+}
